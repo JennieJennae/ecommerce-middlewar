@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
 
 from schema.product import Product, ProductCreate, products
 
@@ -24,3 +24,15 @@ def create_product(payload: ProductCreate):
 def list_products():
     return {'message': 'success', 'data': products}
 
+
+@product_router.put("/{product_id}", status_code=status.HTTP_200_OK)
+def edit_product(product_id: int, payload_edit: ProductCreate):
+    if product_id not in products:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="This product does not exist")
+
+    edit_product = products[product_id]
+    edit_product.name = payload_edit.name
+    edit_product.price = payload_edit.price
+    edit_product.quantity_available = payload_edit.quantity_available
+    return {"message": "The product was successfully updated"}
+    
