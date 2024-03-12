@@ -1,5 +1,3 @@
-import copy
-
 from fastapi import HTTPException
 
 from schema.product import Product, products
@@ -11,16 +9,15 @@ class OrderService:
 
     @staticmethod
     def order_parser(orders: list[Order]):
-        clone_order = copy.deepcopy(orders)
 
-        for order in clone_order:
+        for order in orders:
             order_items = order.items
             new_order = []
             for product_id in order_items:
                 product = products.get(product_id)
                 new_order.append(product)
             order.items = new_order
-        return clone_order
+        return orders
     
     @staticmethod
     def check_availability(payload: OrderCreate):
