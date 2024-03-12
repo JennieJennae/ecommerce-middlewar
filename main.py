@@ -1,4 +1,4 @@
-venv -sc ript from fastapi import FastAPI
+from fastapi import FastAPI
 from starlette.middleware.base import BaseHTTPMiddleware
 from middleware import ecommerce_middleware
 
@@ -7,7 +7,9 @@ from routers.product import product_router
 from routers.order import order_router
 from logger import logger
 
-app = FastAPI()
+app = FastAPI(
+    docs_url='/'
+)
 logger.info("starting app")
 
 app.add_middleware(BaseHTTPMiddleware, dispatch=ecommerce_middleware)
