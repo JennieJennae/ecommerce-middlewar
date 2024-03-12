@@ -13,6 +13,5 @@ async def ecommerce_middleware(request: Request, callnext):
         response.headers["X-Process-Time"] = str(process_time)
         logger.info(f"ended. process_time: {process_time}")
     except Exception as e:
-        print('=============', str(e))
         logger.error("An error occurred while processing")
     return response
